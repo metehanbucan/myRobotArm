@@ -4,11 +4,11 @@
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
 void setup() {
-  Serial.begin(9600);
+  // DİKKAT: HIZI 12 KATINA ÇIKARDIK (Otoyol Hızı)
+  Serial.begin(115200); 
   pwm.begin();
   pwm.setPWMFreq(50);
   delay(10);
-  Serial.println("Arduino Saf PWM Icin Hazir!");
 }
 
 void loop() {
@@ -17,13 +17,9 @@ void loop() {
     int pwm_degeri = Serial.parseInt(); 
 
     if (Serial.read() == '\n') {
-      // Gelen değer motor 0-15 arası ve PWM 100-650 arasıysa çalıştır
       if (motor >= 0 && motor <= 15 && pwm_degeri >= 100 && pwm_degeri <= 650) {
         pwm.setPWM(motor, 0, pwm_degeri);
-        Serial.print("Basarili -> Motor: ");
-        Serial.print(motor);
-        Serial.print(" | Saf PWM: ");
-        Serial.println(pwm_degeri);
+        // Bütün Serial.print() satırlarını sildik. Arduino artık cevap vermekle vakit kaybetmeyecek.
       }
     }
   }

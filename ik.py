@@ -6,17 +6,19 @@ from jacobian import jacobian_space
 def analytic_ik(xcalc,y,z,L1,L2,L3):
     x = xcalc - 0.0693
     r = np.sqrt(x**2 + y**2)
-    theta1 = np.atan2(y,x)
-
+    theta1 = np.atan(y/x)
+ 
+    
     z = z-L1
     r2 = np.sqrt(z**2 + r**2)
 
-    theta2 = np.acos((L2**2 + r2**2 - L3**2) / (2*L2*r2))
+    phi = np.atan(z/r)
+    theta2 = np.acos((L2**2 + r2**2 - L3**2) / (2*L2*r2)) + phi
 
     beta = np.acos((L2**2 + L3**2 - r2**2) / (2 * L2*L3))
     theta3 = np.pi - beta
 
-    return theta1,theta2,theta3
+    return theta1,theta2,-theta3
 
 def IKinSpace(SList, M, Tsd, ThetaList0, eomg, ev, maxiter):
     thetaList = ThetaList0.copy()
