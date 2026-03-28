@@ -2,8 +2,12 @@ import numpy as np
 from se3 import se3_to_vec, matrix_log6
 from fk import FkinSpace
 from jacobian import jacobian_space
+from robot_config import L1,L2,L3
 
-def analytic_ik(xcalc,y,z,L1,L2,L3):
+
+
+
+def analytic_ik(xcalc,y,z):
     x = xcalc - 0.0693
     r = np.sqrt(x**2 + y**2)
     theta1 = np.atan(y/x)
@@ -17,8 +21,8 @@ def analytic_ik(xcalc,y,z,L1,L2,L3):
 
     beta = np.acos((L2**2 + L3**2 - r2**2) / (2 * L2*L3))
     theta3 = np.pi - beta
-
-    return theta1,theta2,-theta3
+    return np.array([theta1, theta2, -theta3]) * 180 / np.pi
+   #return theta1,theta2,-theta3
 
 def IKinSpace(SList, M, Tsd, ThetaList0, eomg, ev, maxiter):
     thetaList = ThetaList0.copy()
